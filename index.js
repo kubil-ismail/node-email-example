@@ -55,6 +55,25 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.post("/register", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const info = await transporter.sendMail({
+      from: "peworld08@gmail.com", // sender address
+      to: email, // list of receivers
+      subject: "Register detected", // Subject line
+      text: `Hai, kami telah mendeteksi akun anda telah Register pada tanggal ${new Date().getDate()}-${new Date().getMonth()}-${new Date().getFullYear()}`, // plain text body
+    });
+
+    auth.push(email);
+
+    res.send(info);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
